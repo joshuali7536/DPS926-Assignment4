@@ -1,0 +1,7 @@
+{
+  "name": "FFXIVMountTracker",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
