@@ -11,6 +11,18 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'search',
+    loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
+  },
+  {
+    path: 'details/:id',
+    loadChildren: () => import('./details/details.module').then( m => m.DetailsPageModule)
+  },
+  {
+    path: 'favourites',
+    loadChildren: () => import('./favourites/favourites.module').then( m => m.FavouritesPageModule)
+  },
 ];
 
 @NgModule({

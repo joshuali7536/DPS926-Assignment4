@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addToFavourites()">
+        <ion-icon slot="icon-only" name="star-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="mountInfo">
+    <ion-card-header>
+      <ion-card-title>
+        {{mountInfo.name}}
+      </ion-card-title>
+      <ion-card-subtitle>
+        {{ mountInfo.movement}}
+      </ion-card-subtitle>
+      <ion-card-subtitle>
+        Owned by {{ mountInfo.owned}} of players
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content text-center>
+      <img [src]="mountInfo.image" class="main-image" alt="">
+      <h4>Seats: {{ mountInfo.seats }}</h4>
+      <br>
+      <h2>Description</h2>
+      <p>{{ mountInfo.description }}</p>
+      <p>{{ mountInfo.enhanced_description }}</p>
+      <br>
+
+      <h2>Sources</h2>
+      <ion-list >
+        <ion-item *ngFor="let source of mountInfo.sources">
+          <ion-label>
+            <h2>{{source.text}}</h2>
+            <h3>{{source.type}}</h3>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>
