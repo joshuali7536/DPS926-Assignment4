@@ -59,8 +59,9 @@ export class DbService {
   }
 
   addMount(id, name, desc, enh_desc, tooltip, movement, seats, owned, image, icon){
-    console.log("addMount()");
     let data = [id, name, desc, enh_desc, tooltip, movement, seats, owned, image, icon];
+    console.log("addMount()");
+    console.log(data);
     return this.storage.executeSql(`INSERT INTO MOUNTSTABLE(mount_id, name, description, enhanced_description, tooltip, movement, seats, owned, image, icon) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, data).then(res => {
       this.loadMounts();
       return res.insertID;

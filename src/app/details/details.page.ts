@@ -19,8 +19,8 @@ export class DetailsPage implements OnInit {
   }
 
   addToFavourites(){
-    //console.log("addToFavourites()" + this.mountInfo.name);
-
+    console.log("addToFavourites()");
+    console.log(this.mountInfo);
     this.db.addMount(this.mountInfo.id, this.mountInfo.name, this.mountInfo.description, this.mountInfo.enhanced_description, this.mountInfo.tooltip, this.mountInfo.movement, this.mountInfo.seats, this.mountInfo.owned, this.mountInfo.image, this.mountInfo.icon);
     this.presentAlert("Mount Favourited", "Added " + this.mountInfo.name + " to favourites.");
   }
