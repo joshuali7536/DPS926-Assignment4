@@ -9,15 +9,15 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let mount of favList" [routerLink]="['/details', mount.id]">
-      <ion-item>
+    <ion-item-sliding *ngFor="let mount of favList">
+      <ion-item [routerLink]="['/details', mount.id]">
         <ion-avatar slot="start">
           <img [src]="mount.icon">
         </ion-avatar>
         <ion-label>{{mount.name}}</ion-label>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option (click)="remove(mount.id)">
+        <ion-item-option (click)="remove(mount.id, mount.name)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>

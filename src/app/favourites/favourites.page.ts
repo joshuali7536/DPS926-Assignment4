@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { DbService } from '../db.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { DbService } from '../db.service';
 })
 export class FavouritesPage implements OnInit {
   favList: any[] = [];
-  constructor(private db: DbService, private route: Router) { }
+  constructor(private db: DbService, private alertController: AlertController) { }
 
   ngOnInit() {
     this.db.getDatabaseState().subscribe(rdy => {
@@ -22,8 +22,24 @@ export class FavouritesPage implements OnInit {
     console.log(this.favList);
   }
 
-  remove(id: number){
-    console.log("removing " + id);
-    this.db.deleteMountByID(id);
+  async remove(id: number, name: string){
+    const alert = await this.alertController.create({
+      header: 'Warning',
+      message: `Do you want to delete ${name} form your list?`,
+      cssClass: 'buttonCss',
+      buttons: [
+        {
+          text: 'Delete',
+          handler: () => {
+            this.db.deleteMountByID(id);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    await alert.present();
   }
 }

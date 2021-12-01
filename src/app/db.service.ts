@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx'
 import { Platform } from '@ionic/angular';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject} from 'rxjs';
 import { Mount } from './Mount';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class DbService {
   constructor(private platform: Platform, private sqlite: SQLite) {
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'data.db',
+        name: 'mount.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.storage = db;
@@ -24,7 +24,7 @@ export class DbService {
           this.isDbReady.next(true);
         }).catch(e => console.log(e));
       }).catch(e => console.log(e));
-    })
+    });
   }
 
   getDatabaseState() {
@@ -41,19 +41,20 @@ export class DbService {
 
       for(let i = 0; i < res.rows.length; i++){
         mounts.push({
-          id: res.row.item(i).mount_id,
-          name: res.row.item(i).name,
-          desc: res.row.item(i).description,
-          enh_desc: res.row.item(i).enhanced_description,
-          tooltip: res.row.item(i).tooltip,
-          movement: res.row.item(i).movement,
-          seats: res.row.item(i).seats,
-          owned: res.row.item(i).owned,
-          image: res.row.item(i).image,
-          icon: res.row.item(i).icon
+          id: res.rows.item(i).mount_id,
+          name: res.rows.item(i).name,
+          desc: res.rows.item(i).description,
+          enh_desc: res.rows.item(i).enhanced_description,
+          tooltip: res.rows.item(i).tooltip,
+          movement: res.rows.item(i).movement,
+          seats: res.rows.item(i).seats,
+          owned: res.rows.item(i).owned,
+          image: res.rows.item(i).image,
+          icon: res.rows.item(i).icon
         });
       }
       this.mountList.next(mounts);
+      console.log("loadMounts()");
       console.log(this.mountList);
     }).catch(e=>console.log(e));
   }
@@ -64,7 +65,6 @@ export class DbService {
     console.log(data);
     return this.storage.executeSql(`INSERT INTO MOUNTSTABLE(mount_id, name, description, enhanced_description, tooltip, movement, seats, owned, image, icon) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, data).then(res => {
       this.loadMounts();
-      return res.insertID;
     }).catch(e=>console.log(e));
   }
 
@@ -72,5 +72,13 @@ export class DbService {
     return this.storage.executeSql(`DELETE FROM MOUNTSTABLE WHERE mount_id=?`, [id]).then(res =>{
       this.loadMounts();
     }).catch(e=>console.log(e));
+  }
+
+  getCountByID(id: number){
+    return this.storage.executeSql(`SELECT * FROM MOUNTSTABLE WHERE mount_id=?`, [id]).then(res =>{
+      return {
+        count: res.rows.length
+      }
+    });
   }
 }
